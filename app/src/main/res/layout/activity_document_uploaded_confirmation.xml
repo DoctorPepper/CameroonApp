@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <ImageView
+        android:id="@+id/check_mark_view"
+        android:layout_width="200sp"
+        android:layout_height="200sp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/baseline_check_circle_black_48"/>
+
+    <TextView
+        android:id="@+id/upload_scheduled_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upload Scheduled"
+        android:layout_below="@id/check_mark_view"
+        android:layout_centerHorizontal="true"
+        android:textSize="24sp"/>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/go_to_start_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OK"
+        android:textSize="50sp"
+        android:layout_below="@id/upload_scheduled_text_view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25sp"/>
+
+</RelativeLayout>
