@@ -9,4 +9,6 @@
     <string name="title_activity_document_uploaded_confirmation">
         DocumentUploadedConfirmationActivity
     </string>
+    <string name="title_activity_pin">PinActivity</string>
+    <string name="title_activity_game">GameActivity</string>
 </resources>
