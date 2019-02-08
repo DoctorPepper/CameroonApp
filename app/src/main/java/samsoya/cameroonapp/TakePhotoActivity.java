@@ -30,7 +30,7 @@ public class TakePhotoActivity extends AppCompatActivity {
         CameraPreview preview = new CameraPreview(this, camera);
 
         mContentView = findViewById(R.id.camera_view);
-
+        //TODO
         mContentView.addView(preview);
 
 
