@@ -1,16 +1,16 @@
 package samsoya.cameroonapp;
 
+import android.Manifest;
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-
-import com.venmo.android.pin.PinFragment;
-import com.venmo.android.pin.util.PinHelper;
 
 public class DocumentSelectionFragment extends Fragment {
 
@@ -27,6 +27,13 @@ public class DocumentSelectionFragment extends Fragment {
                 startActivity(new Intent(getActivity(), TakePhotoActivity.class));
             }
         });
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            // No explanation needed; request the permission
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.CAMERA},
+                    1);
+        }
         return view;
     }
 }
