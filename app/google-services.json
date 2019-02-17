@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "626188095181",
+    "firebase_url": "https://cameroonsite-5f7e2.firebaseio.com",
+    "project_id": "cameroonsite-5f7e2",
+    "storage_bucket": "cameroonsite-5f7e2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:626188095181:android:24db274ae868a2ac",
+        "android_client_info": {
+          "package_name": "samsoya.cameroonapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "626188095181-7a2bmg15s1msr2ehi0rq82jnjaqgcud7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "samsoya.cameroonapp",
+            "certificate_hash": "a79cfb10045a142bd4991be8c61c688d2a5023db"
+          }
+        },
+        {
+          "client_id": "626188095181-fpfc4ii6vrnldumi6cfafolfmst1eflc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAh36xhtRGIAMwX4n76dg4DhqDD2zbnaw0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "626188095181-fpfc4ii6vrnldumi6cfafolfmst1eflc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
