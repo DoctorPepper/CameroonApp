@@ -11,4 +11,5 @@
     </string>
     <string name="title_activity_pin">PinActivity</string>
     <string name="title_activity_game">GameActivity</string>
+    <string name="title_activity_confirm_video">ConfirmVideoActivity</string>
 </resources>
