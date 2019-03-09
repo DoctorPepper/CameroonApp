@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -13,8 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import java.io.File;
-import android.net.Uri;
 
 public class DocumentSelectionFragment extends Fragment {
 
@@ -28,6 +25,7 @@ public class DocumentSelectionFragment extends Fragment {
         //TODO(team): Set the on-click listeners of all buttons for all of the functionalities
         ImageButton selectPhotoButton = view.findViewById(R.id.select_photo_button);
         ImageButton selectVideoButton = view.findViewById(R.id.select_video_button);
+        ImageButton selectAudioButton = view.findViewById(R.id.select_audio_button);
         selectPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,6 +49,14 @@ public class DocumentSelectionFragment extends Fragment {
                 }
             }
         });
+
+        selectAudioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), RecordAudioActivity.class));
+            }
+        });
+
         return view;
     }
     @Override
