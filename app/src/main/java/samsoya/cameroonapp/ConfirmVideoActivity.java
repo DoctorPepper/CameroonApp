@@ -2,14 +2,10 @@ package samsoya.cameroonapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.VideoView;
-import java.io.File;
 
 public class ConfirmVideoActivity extends AppCompatActivity {
 
@@ -34,12 +30,10 @@ public class ConfirmVideoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //TODO(team): Send the photo to the server
-                if (getIntent().getData().getPath() != null) {
-                    File videoFile = new File(getIntent().getData().getPath());
-                    videoFile.delete();
+                if (getIntent().getData() != null) {
+                    getApplicationContext().getContentResolver().delete(getIntent().getData(), null, null);
                 }
                 startActivity(new Intent(ConfirmVideoActivity.this, DocumentUploadedConfirmationActivity.class));
-
             }
         });
     }

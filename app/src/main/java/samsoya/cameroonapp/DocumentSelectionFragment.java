@@ -13,6 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DocumentSelectionFragment extends Fragment {
 
 
@@ -32,13 +35,22 @@ public class DocumentSelectionFragment extends Fragment {
                 startActivity(new Intent(getActivity(), TakePhotoActivity.class));
             }
         });
+
+        List<String> permissions = new ArrayList<>();
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
-            // No explanation needed; request the permission
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{Manifest.permission.CAMERA},
-                    1);
+            permissions.add(Manifest.permission.CAMERA);
         }
+
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // No explanation needed; request the permission
+            permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        if (permissions.size() > 0) {
+            ActivityCompat.requestPermissions(getActivity(), permissions.toArray(new String[permissions.size()]), 1);
+        }
+
         selectVideoButton.setOnClickListener(
         new View.OnClickListener() {
             @Override
@@ -61,8 +73,10 @@ public class DocumentSelectionFragment extends Fragment {
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Intent confirmVideo = new Intent(getActivity(), ConfirmVideoActivity.class);
-        confirmVideo.setData(data.getData());
-        startActivity(confirmVideo);
+        if (data != null) {
+            Intent confirmVideo = new Intent(getActivity(), ConfirmVideoActivity.class);
+            confirmVideo.setData(data.getData());
+            startActivity(confirmVideo);
+        }
     }
 }
