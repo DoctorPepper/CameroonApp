@@ -42,12 +42,11 @@ public class TakePhotoActivity extends AppCompatActivity {
 
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
-                photoBytes = data;
                 camera.stopPreview();
                 camera.release();
-                Intent intentWithPictureData = new Intent(TakePhotoActivity.this, ConfirmPhotoActivity.class);
-                intentWithPictureData.putExtra(getString(R.string.photo_extra), photoBytes);
-                startActivity(intentWithPictureData);
+                PicturePreviewHolder.getInstance().setCapturedPhotoData(data);
+                Intent intent = new Intent(TakePhotoActivity.this, ConfirmPhotoActivity.class);
+                startActivity(intent);
             }
         };
         takePhotoButton.setOnClickListener(new View.OnClickListener() {

@@ -3,6 +3,7 @@ package samsoya.cameroonapp;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,9 +24,13 @@ public class ConfirmPhotoActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_confirm_photo);
 
-        final byte[] photo = getIntent().getByteArrayExtra(getString(R.string.photo_extra));
+        final byte[] photo = PicturePreviewHolder.getInstance().getCapturedPhotoData();
         final Bitmap photoBitmap = BitmapFactory.decodeByteArray(photo, 0, photo.length);
-        ((ImageView) findViewById(R.id.preview_photo_view)).setImageBitmap(photoBitmap);
+        Matrix matrix = new Matrix();
+        matrix.postRotate(90);
+        ImageView preview = findViewById(R.id.preview_photo_view);
+        final Bitmap rotatedBitmap = Bitmap.createBitmap(photoBitmap, 0, 0, photoBitmap.getWidth(), photoBitmap.getHeight(), matrix, true);
+        ((ImageView) findViewById(R.id.preview_photo_view)).setImageBitmap(rotatedBitmap);
 
         findViewById(R.id.retake_photo_button).setOnClickListener(new View.OnClickListener() {
             @Override
