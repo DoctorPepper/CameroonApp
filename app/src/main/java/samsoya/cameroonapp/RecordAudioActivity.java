@@ -47,7 +47,7 @@ public class RecordAudioActivity extends AppCompatActivity {
         if (recorder == null) {
             recorder = new MediaRecorder();
             recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-            recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+            recorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
             recorder.setOutputFile(fileName);
             recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
             try {
@@ -80,7 +80,7 @@ public class RecordAudioActivity extends AppCompatActivity {
 
         // Record to the external cache directory for visibility
         fileName = getExternalCacheDir().getAbsolutePath();
-        fileName += "/tempaudio.3gp";
+        fileName += "/tempaudio.amr";
 
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
 

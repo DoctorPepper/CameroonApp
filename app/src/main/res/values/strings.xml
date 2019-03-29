@@ -12,4 +12,6 @@
     <string name="title_activity_pin">PinActivity</string>
     <string name="title_activity_game">GameActivity</string>
     <string name="title_activity_confirm_video">ConfirmVideoActivity</string>
+    <string name="channel_name">My Channel Name</string>
+    <string name="channel_description">My Channel Description</string>
 </resources>
