@@ -9,6 +9,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 public class ConfirmAudioActivity extends AppCompatActivity {
@@ -16,6 +23,7 @@ public class ConfirmAudioActivity extends AppCompatActivity {
     private MediaPlayer player = null;
     private String audioFile = null;
     private boolean isPlaying = false;
+    private StorageReference mStorageRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +63,19 @@ public class ConfirmAudioActivity extends AppCompatActivity {
                 AsyncTask.execute(new Runnable() {
                     @Override
                     public void run() {
-                        //TODO: Upload audio to Firestore.
+                        mStorageRef = FirebaseStorage.getInstance().getReference();
+                        final StorageReference audioStorage = mStorageRef.child("Audio/aaaaaa.amr");
+                        try {
+                            UploadTask uploadReturn = audioStorage.putStream(new FileInputStream(new File(audioFile)));
+                            uploadReturn.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    NotificationsRunner runner = NotificationsRunner.getInstance();
+                                    runner.postSuccessNotification(getApplicationContext());
+                                }
+                            });
+                        } catch (Exception e) {
+                        }
                     }
                 });
                 startActivity(new Intent(ConfirmAudioActivity.this, DocumentUploadedConfirmationActivity.class));
@@ -78,4 +98,5 @@ public class ConfirmAudioActivity extends AppCompatActivity {
         player.release();
         player = null;
     }
+
 }

@@ -10,9 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 public class ConfirmPhotoActivity extends AppCompatActivity {
 
@@ -48,7 +50,14 @@ public class ConfirmPhotoActivity extends AppCompatActivity {
                     public void run() {
                         mStorageRef = FirebaseStorage.getInstance().getReference();
                         final StorageReference photosStorage = mStorageRef.child("Photos/aaaaaa.png");
-                        photosStorage.putBytes(photo);
+                        UploadTask uploadReturn = photosStorage.putBytes(photo);
+                        uploadReturn.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                NotificationsRunner runner = NotificationsRunner.getInstance();
+                                runner.postSuccessNotification(getApplicationContext());
+                            }
+                        });
                     }
                 });
                 startActivity(new Intent(ConfirmPhotoActivity.this, DocumentUploadedConfirmationActivity.class));
