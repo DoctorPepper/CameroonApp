@@ -20,4 +20,10 @@ public class DocumentUploadedConfirmationActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(DocumentUploadedConfirmationActivity.this, DocumentSelectionActivity.class);
+        startActivity(intent);
+    }
+
 }

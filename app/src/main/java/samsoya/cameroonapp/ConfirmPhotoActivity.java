@@ -19,6 +19,7 @@ import com.google.firebase.storage.UploadTask;
 public class ConfirmPhotoActivity extends AppCompatActivity {
 
     private StorageReference mStorageRef;
+    private SharedPreferencesManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,18 +27,20 @@ public class ConfirmPhotoActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_confirm_photo);
 
+        manager = SharedPreferencesManager.getInstance();
+
         final byte[] photo = PicturePreviewHolder.getInstance().getCapturedPhotoData();
         final Bitmap photoBitmap = BitmapFactory.decodeByteArray(photo, 0, photo.length);
         Matrix matrix = new Matrix();
         matrix.postRotate(90);
         ImageView preview = findViewById(R.id.preview_photo_view);
         final Bitmap rotatedBitmap = Bitmap.createBitmap(photoBitmap, 0, 0, photoBitmap.getWidth(), photoBitmap.getHeight(), matrix, true);
-        ((ImageView) findViewById(R.id.preview_photo_view)).setImageBitmap(rotatedBitmap);
+        preview.setImageBitmap(rotatedBitmap);
 
         findViewById(R.id.retake_photo_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO(team): Go back to photo
+                onBackPressed();
             }
         });
 
@@ -49,7 +52,8 @@ public class ConfirmPhotoActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         mStorageRef = FirebaseStorage.getInstance().getReference();
-                        final StorageReference photosStorage = mStorageRef.child("Photos/aaaaaa.png");
+                        String storageString = "Photos/" + manager.getCountyPreference() + "/new.png";
+                        final StorageReference photosStorage = mStorageRef.child(storageString);
                         UploadTask uploadReturn = photosStorage.putBytes(photo);
                         uploadReturn.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override

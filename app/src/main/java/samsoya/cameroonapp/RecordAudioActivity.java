@@ -3,7 +3,6 @@ package samsoya.cameroonapp;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -23,13 +22,18 @@ public class RecordAudioActivity extends AppCompatActivity {
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
     private static String fileName = null;
     private MediaRecorder recorder = null;
-    private MediaPlayer player = null;
+
     private boolean isPaused = false;
     private long currentTime = 0;
 
     // Requesting permission to RECORD_AUDIO
     private boolean permissionToRecordAccepted = false;
     private String[] permissions = {Manifest.permission.RECORD_AUDIO};
+
+    private Chronometer chronometer;
+    private ImageButton recordAudioButton;
+    private ImageButton pauseAudioButton;
+    private ImageButton stopAudioRecordingButton;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -68,6 +72,9 @@ public class RecordAudioActivity extends AppCompatActivity {
     }
 
     private void stopRecording() {
+        if (isPaused) {
+            recorder.resume();
+        }
         recorder.stop();
         recorder.release();
         recorder = null;
@@ -76,20 +83,24 @@ public class RecordAudioActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        getSupportActionBar().hide(); //hide the title bar
 
         // Record to the external cache directory for visibility
-        fileName = getExternalCacheDir().getAbsolutePath();
+        try {
+            fileName = getExternalCacheDir().getAbsolutePath();
+        } catch (NullPointerException e) {
+            Log.e(LOG_TAG, "There was a problem getting an external path");
+            onBackPressed();
+        }
         fileName += "/tempaudio.amr";
 
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
 
         setContentView(R.layout.activity_record_audio);
 
-        final Chronometer chronometer = findViewById(R.id.audio_stopwatch);
-        final ImageButton recordAudioButton = findViewById(R.id.record_audio_button);
-        final ImageButton pauseAudioButton = findViewById(R.id.pause_audio_button);
-        final ImageButton stopAudioRecordingButton = findViewById(R.id.stop_audio_recording_button);
+        chronometer = findViewById(R.id.audio_stopwatch);
+        recordAudioButton = findViewById(R.id.record_audio_button);
+        pauseAudioButton = findViewById(R.id.pause_audio_button);
+        stopAudioRecordingButton = findViewById(R.id.stop_audio_recording_button);
 
 
         recordAudioButton.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +121,6 @@ public class RecordAudioActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (isPaused) {
-                    chronometer.stop();
                     chronometer.setBase(SystemClock.elapsedRealtime());
                     currentTime = 0;
                     stopRecording();
@@ -138,24 +148,29 @@ public class RecordAudioActivity extends AppCompatActivity {
                 Intent intent = new Intent(RecordAudioActivity.this, ConfirmAudioActivity.class);
                 intent.putExtra("filename", fileName);
                 startActivity(intent);
-
             }
         });
 
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         if (recorder != null) {
+            if (isPaused) {
+                recorder.resume();
+            }
             recorder.release();
             recorder = null;
         }
-
-        if (player != null) {
-            player.release();
-            player = null;
-        }
+        chronometer.setBase(SystemClock.elapsedRealtime());
+        chronometer.stop();
+        currentTime = 0;
+        pauseAudioButton.setImageResource(R.drawable.ic_pause_black_24dp);
+        isPaused = false;
+        disableButton(pauseAudioButton);
+        disableButton(stopAudioRecordingButton);
+        enableButton(recordAudioButton);
     }
 
     private void disableButton(ImageButton button) {

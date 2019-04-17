@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -14,17 +15,21 @@ import android.widget.FrameLayout;
  */
 public class TakePhotoActivity extends AppCompatActivity {
     private FrameLayout mContentView;
-    private byte[] photoBytes = null;
-    Camera camera = getCameraInstance();
+    private Camera camera;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_photo);
         getSupportActionBar().hide(); //hide the title bar
-
         if (camera == null) {
-            //TODO(team): determine behavior if camera is taken
+            camera = getCameraInstance();
+        }
+        if (camera == null) {
+            onBackPressed();
+            Toast.makeText(this, R.string.camera_taken, Toast.LENGTH_LONG).show();
         }
 
         CameraPreview preview = new CameraPreview(this, camera);
@@ -43,7 +48,7 @@ public class TakePhotoActivity extends AppCompatActivity {
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
                 camera.stopPreview();
-                camera.release();
+                releaseCamera();
                 PicturePreviewHolder.getInstance().setCapturedPhotoData(data);
                 Intent intent = new Intent(TakePhotoActivity.this, ConfirmPhotoActivity.class);
                 startActivity(intent);
@@ -58,13 +63,24 @@ public class TakePhotoActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
+    protected void onResume() {
+        super.onResume();
+        if (camera == null) {
+            camera = getCameraInstance();
+        }
+        CameraPreview preview = new CameraPreview(this, camera);
 
-        // Trigger the initial hide() shortly after the activity has been
-        // created, to briefly hint to the user that UI controls
-        // are available.
-        //delayedHide(100);
+        mContentView = findViewById(R.id.camera_view);
+        mContentView.removeAllViews();
+        mContentView.addView(preview);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (camera == null) {
+            camera = getCameraInstance();
+        }
     }
 
     /** A safe way to get an instance of the Camera object. */
@@ -82,7 +98,7 @@ public class TakePhotoActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        releaseCamera();              // release the camera immediately on pause event
+        releaseCamera(); // release the camera immediately on pause event
     }
 
     private void releaseCamera(){

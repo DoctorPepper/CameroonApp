@@ -18,8 +18,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".ConfirmAudioActivity"></activity>
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".ConfirmAudioActivity" />
         <activity android:name=".RecordAudioActivity" />
         <activity
             android:name=".ConfirmVideoActivity"
@@ -49,6 +50,10 @@
             android:name=".DocumentUploadedConfirmationActivity"
             android:label="@string/title_activity_document_uploaded_confirmation"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <receiver
+            android:name=".ChooserReceiver"
+            android:exported="false" />
     </application>
 
 </manifest>
