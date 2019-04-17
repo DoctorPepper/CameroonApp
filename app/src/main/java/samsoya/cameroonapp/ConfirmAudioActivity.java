@@ -51,7 +51,7 @@ public class ConfirmAudioActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 stopPlaying();
-                //TODO(team): Go back to photo
+                onBackPressed();
             }
         });
 
@@ -64,7 +64,8 @@ public class ConfirmAudioActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         mStorageRef = FirebaseStorage.getInstance().getReference();
-                        final StorageReference audioStorage = mStorageRef.child("Audio/aaaaaa.amr");
+                        String storageString = "Audio/" + SharedPreferencesManager.getInstance().getCountyPreference() + "/new.amr";
+                        final StorageReference audioStorage = mStorageRef.child(storageString);
                         try {
                             UploadTask uploadReturn = audioStorage.putStream(new FileInputStream(new File(audioFile)));
                             uploadReturn.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -94,9 +95,17 @@ public class ConfirmAudioActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopPlaying();
+    }
+
     private void stopPlaying() {
-        player.release();
-        player = null;
+        if (player != null) {
+            player.release();
+            player = null;
+        }
     }
 
 }

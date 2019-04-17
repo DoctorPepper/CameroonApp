@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="counties_array">
+        <item>Boyo</item>
+        <item>Bui</item>
+        <item>Donga-Mantung</item>
+        <item>Fako</item>
+        <item>Kupe</item>
+        <item>Lebialem</item>
+        <item>Manyu</item>
+        <item>Meme</item>
+        <item>Menchum</item>
+        <item>Mezam</item>
+        <item>Momo</item>
+        <item>Ndian</item>
+        <item>Ngo-Ketunjia</item>
+    </string-array>
+</resources>
