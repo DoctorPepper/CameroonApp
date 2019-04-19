@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Cameroon App</string>
+    <string name="app_name">Game Manager</string>
 
     <string name="title_activity_take_photo">TakePhotoActivity</string>
     <string name="dummy_button">Dummy Button</string>
